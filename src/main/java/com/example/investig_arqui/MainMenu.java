@@ -21,6 +21,7 @@ public class MainMenu {
 
     @FXML
     private Button showButton;
+    private AddTasks addTasks;
 
 
     @FXML
@@ -30,8 +31,8 @@ public class MainMenu {
         Stage nuevoStage = new Stage();
         nuevoStage.setScene(scene);
         nuevoStage.show();
-        AddTasks addTasks = new AddTasks();
-        addTasks.setTextArea();
+        addTasks = loader.getController(); // referenciar a la clase addTask que se crea
+        addTasks.setTextArea(); // setea el text area con la nueva tarea
 
     }
 

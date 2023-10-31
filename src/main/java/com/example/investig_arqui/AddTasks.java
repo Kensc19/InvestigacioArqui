@@ -34,9 +34,9 @@ public class AddTasks {
     @FXML
     private TextArea textArea_task = new TextArea();
 
+
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
-        textArea_task.setText("Hola");
     }
 
     @FXML
@@ -45,15 +45,19 @@ public class AddTasks {
     }
 
     @FXML
-    void restBut_clicked(ActionEvent event) {
-        countRest-= 10;
-        time+= countRest;
+    void restBut_clicked(ActionEvent event) throws IOException {
+        time -= 10;
+
+
+        setTextArea();
     }
 
     @FXML
-    void sumBut_clicked(ActionEvent event) {
-        countSum+= 10;
-        time+= countSum;
+    void sumBut_clicked(ActionEvent event) throws IOException {
+        time += 10;
+
+        setTextArea();
+
     }
 
     public void setTextArea() throws IOException {
@@ -61,7 +65,16 @@ public class AddTasks {
         Scene scene = new Scene(loader.load());
         Stage nuevoStage = new Stage();
         nuevoStage.setScene(scene);
-        isActive(nuevoStage);
+
+        if(isActive(nuevoStage) == true && time == 0)
+            restBut.setDisable(true);
+        else if(isActive(nuevoStage) == true && time > 0)
+            restBut.setDisable(false);
+
+
+        textArea_task.setText("Tarea no. " + countTask
+                + "\nID: " + countTask +
+                "\nTiempo: " + time + " minutos");
 
     }
 
@@ -74,6 +87,5 @@ public class AddTasks {
     }
 
     public void setTextArea_task(TextArea textArea_task) {
-        textArea_task.setText("Hola");
     }
 }
