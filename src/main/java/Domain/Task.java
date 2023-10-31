@@ -9,9 +9,17 @@ public class Task {
     private String descriptionTask;
     private Timer timer;
     private boolean isCompleted;
-    private Long dueDate;
+    private int dueDate;
 
     public Task() {
+    }
+
+    public Task(int idTask, String descriptionTask, Timer timer, boolean isCompleted, int dueDate) {
+        this.idTask = idTask;
+        this.descriptionTask = descriptionTask;
+        this.timer = timer;
+        this.isCompleted = isCompleted;
+        this.dueDate = dueDate;
     }
 
     public int getIdTask() {
@@ -46,11 +54,11 @@ public class Task {
         isCompleted = completed;
     }
 
-    public long getDueDate() {
+    public int getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Long dueDate) {
+    public void setDueDate(int dueDate) {
         this.dueDate = dueDate;
     }
 }

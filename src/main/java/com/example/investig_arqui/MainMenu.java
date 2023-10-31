@@ -30,6 +30,9 @@ public class MainMenu {
         Stage nuevoStage = new Stage();
         nuevoStage.setScene(scene);
         nuevoStage.show();
+        AddTasks addTasks = new AddTasks();
+        addTasks.setTextArea();
+
     }
 
 

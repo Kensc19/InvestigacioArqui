@@ -18,7 +18,7 @@ public class TaskManager {
         tasks.add(task);
 
         // Obtener el tiempo límite de la tarea
-        long dueTime = task.getDueDate();
+        int dueTime = task.getDueDate();
 
         // Programar la tarea para la alerta cuando expire el tiempo
         Timer timer = new Timer();
