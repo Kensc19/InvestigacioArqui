@@ -10,29 +10,21 @@ import java.util.TimerTask;
 public class TaskManager {
     private List<Task> tasks;
 
+    private static TaskManager instance;
+
     public TaskManager() {
         tasks = new ArrayList<>();
     }
 
+    public static TaskManager getInstance() {
+        if (instance == null) {
+            instance = new TaskManager();
+        }
+        return instance;
+    }
+
     public void addTask(Task task) {
         tasks.add(task);
-
-        // Obtener el tiempo límite de la tarea
-        int dueTime = task.getDueDate();
-
-        // Programar la tarea para la alerta cuando expire el tiempo
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (!task.isCompleted()) {
-                    System.out.println("Tarea ID: " + task.getIdTask() + " ha vencido.");
-                    task.setCompleted(true);
-                    timer.cancel(); // Detener el Timer después de la alerta
-                }
-            }
-        }, dueTime);
-        task.setTimer(timer);
     }
 
     public List<Task> getTasks() {

@@ -7,19 +7,18 @@ public class Task {
 
     private int idTask;
     private String descriptionTask;
-    private Timer timer;
+    private int timer;
     private boolean isCompleted;
     private int dueDate;
 
     public Task() {
     }
 
-    public Task(int idTask, String descriptionTask, Timer timer, boolean isCompleted, int dueDate) {
+    public Task(int idTask, String descriptionTask, int timer, boolean isCompleted) {
         this.idTask = idTask;
         this.descriptionTask = descriptionTask;
         this.timer = timer;
         this.isCompleted = isCompleted;
-        this.dueDate = dueDate;
     }
 
     public int getIdTask() {
@@ -38,11 +37,11 @@ public class Task {
         this.descriptionTask = descriptionTask;
     }
 
-    public Timer getTimer() {
+    public int getTimer() {
         return timer;
     }
 
-    public void setTimer(Timer timer) {
+    public void setTimer(int timer) {
         this.timer = timer;
     }
 

@@ -1,6 +1,7 @@
 package com.example.investig_arqui;
 
 import Domain.Task;
+import Service.TaskManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +14,8 @@ import java.io.IOException;
 
 public class AddTasks {
 
-    private int countTask;
-    private int countSum;
-    private int countRest;
+    private int countTask =  1;
+
     private int time;
     boolean state = false;
 
@@ -28,8 +28,6 @@ public class AddTasks {
     @FXML
     private Button restBut;
 
-    @FXML
-    private Button sumBut;
 
     @FXML
     private TextArea textArea_task = new TextArea();
@@ -37,11 +35,47 @@ public class AddTasks {
 
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
+        // Obtén el texto del TextArea
+        String taskText = textArea_task.getText();
+
+        // Divide el texto en líneas para obtener los datos
+        String[] lines = taskText.split("\\n");
+
+        // Inicializa variables para los datos
+        String description = "";
+        int id = 0;
+        int time = 0;
+
+        // Analiza cada línea para obtener los datos
+        for (String line : lines) {
+            if (line.startsWith("ID: ")) {
+                id = Integer.parseInt(line.substring(4).trim());
+            } else if (line.startsWith("Tiempo: ")) {
+                time = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
+            } else if (!line.startsWith("Tarea no.")) {
+                // Asume que cualquier línea que no comienza con "Tarea no." es la descripción
+                description += line + "\n";
+            }
+        }
+
+        // Crea una nueva instancia de Task con los datos
+        Task newTask = new Task(id, description, time, false);
+
+        // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
+        TaskManager taskManager = TaskManager.getInstance(); // O como obtengas la instancia
+        taskManager.addTask(newTask);
+
+        // Cierra la ventana actual si es necesario
+        Stage currentStage = (Stage) accept_but.getScene().getWindow();
+        currentStage.close();
     }
+
+
 
     @FXML
     void exit_add_clicked(ActionEvent event) throws IOException {
-
+        Stage currentStage = (Stage) exit_add.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML
@@ -86,6 +120,4 @@ public class AddTasks {
         }
     }
 
-    public void setTextArea_task(TextArea textArea_task) {
-    }
 }
