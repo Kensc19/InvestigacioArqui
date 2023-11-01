@@ -91,7 +91,6 @@ public class AddTasks {
     }
 
 
-
     @FXML
     void exit_add_clicked(ActionEvent event) throws IOException {
         currentStage = (Stage) exit_add.getScene().getWindow();

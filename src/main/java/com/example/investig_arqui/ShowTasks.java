@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class ShowTasks {
-
     @FXML
     private TableColumn<?, ?> descColumn;
 
@@ -30,14 +29,11 @@ public class ShowTasks {
 
     @FXML
     private TableColumn<?, ?> timeColumn;
-    private TaskManager taskManager;
 
-    private ArrayList arrayList = new ArrayList<>();
+    private TaskManager taskManager;
 
     @FXML
     void exitViewClicked(ActionEvent event) {
-
-
         Stage currentStage = (Stage) exitView.getScene().getWindow();
         currentStage.close();
     }
@@ -47,17 +43,13 @@ public class ShowTasks {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         descColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionTask"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("timer"));
-        taskManager = new TaskManager(arrayList);
-        System.out.println(arrayList.toString());
-        ObservableList<Task> data = FXCollections.observableArrayList(
-                taskManager.getTasks());
+        if (taskManager == null) {
+            taskManager = TaskManager.getInstance();
+        }
+        ObservableList<Task> data = FXCollections.observableArrayList(taskManager.getTasks());
         tableTask.setItems(data);
-        int hashCode = System.identityHashCode(arrayList);
-        System.out.println("Dirección de memoria del ArrayList: " + Integer.toHexString(hashCode));
     }
-
-
-
-
-
 }
+
+
+

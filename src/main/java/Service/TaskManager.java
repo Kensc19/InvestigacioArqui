@@ -17,9 +17,6 @@ public class TaskManager {
         tasks = new ArrayList<>();
     }
 
-    public TaskManager(List<Task> tasks) {
-        this.tasks = tasks;
-    }
 
     public static TaskManager getInstance() {
         if (instance == null) {
