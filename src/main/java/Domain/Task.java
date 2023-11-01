@@ -60,4 +60,14 @@ public class Task {
     public void setDueDate(int dueDate) {
         this.dueDate = dueDate;
     }
+
+    @Override
+    public String toString() {
+        return
+                "idTask=" + idTask +
+                ", descriptionTask='" + descriptionTask + '\'' +
+                ", timer=" + timer +
+                ", isCompleted=" + isCompleted +
+                ", dueDate=" + dueDate;
+    }
 }

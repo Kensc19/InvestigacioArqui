@@ -6,17 +6,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0E6655;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.investig_arqui.MainMenu">
    <children>
-      <Button fx:id="addButton" layoutX="227.0" layoutY="39.0" mnemonicParsing="false" onAction="#addButton_clicked" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: #717D7E;" text="Añadir" textFill="WHITE">
+      <Button fx:id="addButton" layoutX="227.0" layoutY="39.0" mnemonicParsing="false" onAction="#addButton_clicked" prefHeight="74.0" prefWidth="146.0" text="Añadir">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="showButton" layoutX="227.0" layoutY="163.0" mnemonicParsing="false" onAction="#showButton_clicked" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: #717D7E;" text="Mostrar" textFill="WHITE">
+      <Button fx:id="showButton" layoutX="227.0" layoutY="163.0" mnemonicParsing="false" onAction="#showButton_clicked" prefHeight="74.0" prefWidth="146.0" text="Mostrar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="exitButtonAll" layoutX="227.0" layoutY="290.0" mnemonicParsing="false" onAction="#exitButtonAll_clicked" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: #717D7E;" text="Salir" textFill="WHITE">
+      <Button fx:id="exitButtonAll" layoutX="227.0" layoutY="290.0" mnemonicParsing="false" onAction="#exitButtonAll_clicked" prefHeight="74.0" prefWidth="146.0" text="Salir">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

@@ -13,8 +13,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AddTasks {
+    private Stage currentStage;
 
-    private int countTask =  1;
+    public Stage getCurrentStage() {
+        return currentStage;
+    }
+
+    public void setCurrentStage(Stage currentStage) {
+        this.currentStage = currentStage;
+    }
+
+    int countTask;
 
     private int time;
     boolean state = false;
@@ -35,6 +44,8 @@ public class AddTasks {
 
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
+
+
         // Obtén el texto del TextArea
         String taskText = textArea_task.getText();
 
@@ -43,13 +54,12 @@ public class AddTasks {
 
         // Inicializa variables para los datos
         String description = "";
-        int id = 0;
         int time = 0;
 
         // Analiza cada línea para obtener los datos
         for (String line : lines) {
             if (line.startsWith("ID: ")) {
-                id = Integer.parseInt(line.substring(4).trim());
+                countTask = Integer.parseInt(line.substring(4).trim());
             } else if (line.startsWith("Tiempo: ")) {
                 time = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
             } else if (!line.startsWith("Tarea no.")) {
@@ -59,23 +69,30 @@ public class AddTasks {
         }
 
         // Crea una nueva instancia de Task con los datos
-        Task newTask = new Task(id, description, time, false);
+        Task newTask = new Task(countTask, description, time, false);
 
         // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
         TaskManager taskManager = TaskManager.getInstance(); // O como obtengas la instancia
         taskManager.addTask(newTask);
 
+
         // Cierra la ventana actual si es necesario
         Stage currentStage = (Stage) accept_but.getScene().getWindow();
-        currentStage.close();
+        currentStage.hide();
+
+        System.out.println(newTask.toString());
+
+        countTask += 1;
+        setTextArea();
+
     }
 
 
 
     @FXML
     void exit_add_clicked(ActionEvent event) throws IOException {
-        Stage currentStage = (Stage) exit_add.getScene().getWindow();
-        currentStage.close();
+        currentStage = (Stage) exit_add.getScene().getWindow();
+        currentStage.hide();
     }
 
     @FXML
@@ -104,7 +121,6 @@ public class AddTasks {
             restBut.setDisable(true);
         else if(isActive(nuevoStage) == true && time > 0)
             restBut.setDisable(false);
-
 
         textArea_task.setText("Tarea no. " + countTask
                 + "\nID: " + countTask +
