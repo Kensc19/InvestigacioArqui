@@ -33,16 +33,15 @@ public class MainMenu {
             Stage nuevoStage = new Stage();
             nuevoStage.setScene(scene);
             nuevoStage.show();
+            addTasks = new AddTasks();
             addTasks = loader.getController(); // referenciar a la clase addTask que se crea
             addTasks.setTextArea(); // setea el text area con la nueva tarea
             addTasks.setCurrentStage(nuevoStage);
-            //addTasks.setTextArea(); // setea el text area con la nueva tarea
-            //existingStage = addTasks.getCurrentStage();
 
-        }else
+        }else {
             existingStage = addTasks.getCurrentStage();
             existingStage.show();
-
+        }
     }
 
 
@@ -54,7 +53,6 @@ public class MainMenu {
         nuevoStage.setScene(scene);
         nuevoStage.show();
     }
-
 
     @FXML
     void exitButtonAll_clicked(ActionEvent event) {

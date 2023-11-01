@@ -15,6 +15,9 @@ import java.io.IOException;
 public class AddTasks {
     private Stage currentStage;
 
+    public AddTasks() {
+    }
+
     public Stage getCurrentStage() {
         return currentStage;
     }
@@ -23,7 +26,7 @@ public class AddTasks {
         this.currentStage = currentStage;
     }
 
-    int countTask;
+    private int countTask;
 
     private int time;
     boolean state = false;
@@ -41,7 +44,6 @@ public class AddTasks {
     @FXML
     private TextArea textArea_task = new TextArea();
 
-
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
 
@@ -54,22 +56,22 @@ public class AddTasks {
 
         // Inicializa variables para los datos
         String description = "";
-        int time = 0;
+        int timing = 0;
 
         // Analiza cada línea para obtener los datos
         for (String line : lines) {
             if (line.startsWith("ID: ")) {
                 countTask = Integer.parseInt(line.substring(4).trim());
             } else if (line.startsWith("Tiempo: ")) {
-                time = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
-            } else if (!line.startsWith("Tarea no.")) {
+                timing = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
+            } else if (!line.startsWith("Tarea ")) {
                 // Asume que cualquier línea que no comienza con "Tarea no." es la descripción
                 description += line + "\n";
             }
         }
 
         // Crea una nueva instancia de Task con los datos
-        Task newTask = new Task(countTask, description, time, false);
+        Task newTask = new Task(countTask, description, timing, false);
 
         // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
         TaskManager taskManager = TaskManager.getInstance(); // O como obtengas la instancia
@@ -83,6 +85,7 @@ public class AddTasks {
         System.out.println(newTask.toString());
 
         countTask += 1;
+        time = 0;
         setTextArea();
 
     }
@@ -122,8 +125,8 @@ public class AddTasks {
         else if(isActive(nuevoStage) == true && time > 0)
             restBut.setDisable(false);
 
-        textArea_task.setText("Tarea no. " + countTask
-                + "\nID: " + countTask +
+        textArea_task.setText("ID: " + countTask +
+                "\nTarea " +
                 "\nTiempo: " + time + " minutos");
 
     }
