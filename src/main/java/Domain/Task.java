@@ -9,7 +9,7 @@ public class Task {
     private String descriptionTask;
     private int timer;
     private boolean isCompleted;
-    private int dueDate;
+
 
     public Task() {
     }
@@ -53,13 +53,7 @@ public class Task {
         isCompleted = completed;
     }
 
-    public int getDueDate() {
-        return dueDate;
-    }
 
-    public void setDueDate(int dueDate) {
-        this.dueDate = dueDate;
-    }
 
     @Override
     public String toString() {
@@ -67,7 +61,6 @@ public class Task {
                 "idTask=" + idTask +
                 ", descriptionTask='" + descriptionTask + '\'' +
                 ", timer=" + timer +
-                ", isCompleted=" + isCompleted +
-                ", dueDate=" + dueDate;
+                ", isCompleted=" + isCompleted;
     }
 }

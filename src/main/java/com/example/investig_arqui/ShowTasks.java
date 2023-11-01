@@ -1,6 +1,7 @@
 package com.example.investig_arqui;
 
 import Domain.Task;
+import Service.TaskManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class ShowTasks {
 
@@ -27,15 +30,16 @@ public class ShowTasks {
 
     @FXML
     private TableColumn<?, ?> timeColumn;
+    private TaskManager taskManager;
 
-
+    private ArrayList arrayList = new ArrayList<>();
 
     @FXML
     void exitViewClicked(ActionEvent event) {
 
 
         Stage currentStage = (Stage) exitView.getScene().getWindow();
-        //currentStage.close();
+        currentStage.close();
     }
 
     @FXML
@@ -43,17 +47,17 @@ public class ShowTasks {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         descColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionTask"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("timer"));
-
+        taskManager = new TaskManager(arrayList);
+        System.out.println(arrayList.toString());
+        ObservableList<Task> data = FXCollections.observableArrayList(
+                taskManager.getTasks());
         tableTask.setItems(data);
+        int hashCode = System.identityHashCode(arrayList);
+        System.out.println("Dirección de memoria del ArrayList: " + Integer.toHexString(hashCode));
     }
 
 
 
 
-    ObservableList<Task> data = FXCollections.observableArrayList(
-           new Task(1,"",1,false )
-
-
-    );
 
 }

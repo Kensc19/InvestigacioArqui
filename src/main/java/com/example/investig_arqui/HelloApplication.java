@@ -15,6 +15,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Administrador De Tareas");
         stage.setResizable(false);
         stage.setScene(scene);
+
         stage.show();
     }
 

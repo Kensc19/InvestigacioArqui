@@ -64,7 +64,7 @@ public class AddTasks {
                 countTask = Integer.parseInt(line.substring(4).trim());
             } else if (line.startsWith("Tiempo: ")) {
                 timing = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
-            } else if (!line.startsWith("Tarea ")) {
+            } else if (line.startsWith("Tarea")) {
                 // Asume que cualquier línea que no comienza con "Tarea no." es la descripción
                 description += line + "\n";
             }
@@ -82,7 +82,7 @@ public class AddTasks {
         Stage currentStage = (Stage) accept_but.getScene().getWindow();
         currentStage.hide();
 
-        System.out.println(newTask.toString());
+        //System.out.println(newTask.toString());
 
         countTask += 1;
         time = 0;
@@ -126,7 +126,7 @@ public class AddTasks {
             restBut.setDisable(false);
 
         textArea_task.setText("ID: " + countTask +
-                "\nTarea " +
+                "\nTarea" +
                 "\nTiempo: " + time + " minutos");
 
     }
