@@ -61,10 +61,6 @@ public class ShowTasks {
         }
 
 
-
-
-
-
         ObservableList<Task> data = FXCollections.observableArrayList(taskManager.getTasks());
         tableTask.setItems(data);
     }

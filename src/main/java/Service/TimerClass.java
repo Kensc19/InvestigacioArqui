@@ -14,7 +14,10 @@ public class TimerClass {
     public void initTimer(long tiempo, int idTask){
 
         Timer timer = new Timer();
-        taskManager = new TaskManager();
+        if(taskManager == null){
+            taskManager = TaskManager.getInstance();
+
+        }
 
         TimerTask tarea = new TimerTask() {
 
@@ -22,20 +25,17 @@ public class TimerClass {
             @Override
             public void run() {
                 System.out.println("Tarea finalizada");
-                timer.cancel();
-
                 if(task == null) {
                     task = Task.getInstance();
-                    task.setCompleted(true);
-                    System.out.println(task.isCompleted());
                 }
+                taskManager.taskFound(task.getIdTask());
+                timer.cancel();
 
             }
 
         };
 
         timer.schedule(tarea,tiempo);
-
     }
 
 

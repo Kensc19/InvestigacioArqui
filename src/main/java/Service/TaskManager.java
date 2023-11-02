@@ -27,7 +27,6 @@ public class TaskManager {
 
     public void addTask(Task task) {
         tasks.add(task);
-       //System.out.println(getTasks().toString());
         int hashCode = System.identityHashCode(tasks);
         System.out.println("Dirección de memoria del ArrayList: " + Integer.toHexString(hashCode));
     }
@@ -36,11 +35,13 @@ public class TaskManager {
         return tasks;
     }
 
-
-    public void printReadyTask() {
-        for (Task task : tasks) {
-            if (!task.isCompleted()) {
-                System.out.println("Tarea ID: " + task.getIdTask() + ", Descripción: " + task.getDescriptionTask() + ", Completada: " + task.isCompleted());
+    public void taskFound(int id){
+        int hashCode = System.identityHashCode(tasks);
+        System.out.println("Dirección de memoria del ArrayList: " + Integer.toHexString(hashCode));
+        for(Task task: tasks){
+            if(task.getIdTask() == id){
+                task.setCompleted(true);
+                break;
             }
         }
     }

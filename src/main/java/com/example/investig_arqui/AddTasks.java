@@ -33,7 +33,6 @@ public class AddTasks {
     private int countTask;
 
     private int time;
-    boolean state = false;
 
     @FXML
     private Button accept_but;
@@ -50,7 +49,6 @@ public class AddTasks {
 
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
-
 
 
         // Obtén el texto del TextArea
