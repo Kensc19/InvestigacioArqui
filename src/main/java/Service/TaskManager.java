@@ -37,12 +37,14 @@ public class TaskManager {
     }
 
 
-    public void checkTasksStatus() {
+    public void printReadyTask() {
         for (Task task : tasks) {
             if (!task.isCompleted()) {
                 System.out.println("Tarea ID: " + task.getIdTask() + ", Descripción: " + task.getDescriptionTask() + ", Completada: " + task.isCompleted());
             }
         }
     }
+
+
 }
 

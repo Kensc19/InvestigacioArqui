@@ -2,6 +2,7 @@ package com.example.investig_arqui;
 
 import Domain.Task;
 import Service.TaskManager;
+import Service.TimerClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AddTasks {
+    TimerClass taskTimer;
+    TaskManager taskManager;
+
     private Stage currentStage;
 
     public AddTasks() {
@@ -48,22 +52,23 @@ public class AddTasks {
     void accept_but_clicked(ActionEvent event) throws IOException {
 
 
+
         // Obtén el texto del TextArea
         String taskText = textArea_task.getText();
 
         // Divide el texto en líneas para obtener los datos
-        String[] lines = taskText.split("\\n");
+        String[] lines = taskText.split("\n");
 
         // Inicializa variables para los datos
         String description = "";
-        int timing = 0;
+        int minutes = 0;
 
         // Analiza cada línea para obtener los datos
         for (String line : lines) {
             if (line.startsWith("ID: ")) {
                 countTask = Integer.parseInt(line.substring(4).trim());
             } else if (line.startsWith("Tiempo: ")) {
-                timing = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
+                minutes = Integer.parseInt(line.substring(7, line.indexOf(" minutos")).trim());
             } else if (line.startsWith("Tarea")) {
                 // Asume que cualquier línea que no comienza con "Tarea no." es la descripción
                 description += line + "\n";
@@ -71,11 +76,18 @@ public class AddTasks {
         }
 
         // Crea una nueva instancia de Task con los datos
-        Task newTask = new Task(countTask, description, timing, false);
+        Task newTask = new Task(countTask, description, minutes, false);
 
         // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
         TaskManager taskManager = TaskManager.getInstance(); // O como obtengas la instancia
         taskManager.addTask(newTask);
+
+
+
+        // crear el objeto timer
+        taskTimer = new TimerClass();
+        long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
+        taskTimer.initTimer(minToMili);
 
 
         // Cierra la ventana actual si es necesario
@@ -99,7 +111,7 @@ public class AddTasks {
 
     @FXML
     void restBut_clicked(ActionEvent event) throws IOException {
-        time -= 10;
+        time -= 1;
 
 
         setTextArea();
@@ -107,7 +119,7 @@ public class AddTasks {
 
     @FXML
     void sumBut_clicked(ActionEvent event) throws IOException {
-        time += 10;
+        time += 1;
 
         setTextArea();
 
