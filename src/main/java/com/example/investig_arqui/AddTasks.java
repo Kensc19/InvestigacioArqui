@@ -83,11 +83,10 @@ public class AddTasks {
         taskManager.addTask(newTask);
 
 
-
         // crear el objeto timer
         taskTimer = new TimerClass();
         long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
-        taskTimer.initTimer(minToMili);
+        taskTimer.initTimer(minToMili, countTask);
 
 
         // Cierra la ventana actual si es necesario

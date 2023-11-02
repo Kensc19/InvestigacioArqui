@@ -31,6 +31,8 @@ public class ShowTasks {
     private TableColumn<?, ?> timeColumn;
 
     private TaskManager taskManager;
+    private Task task;
+    private boolean booleanToChange = false;
 
     @FXML
     void exitViewClicked(ActionEvent event) {
@@ -40,12 +42,29 @@ public class ShowTasks {
 
     @FXML
     void initialize() {
+        tableTask.refresh();
+        if(task == null) {
+            task = Task.getInstance();
+            booleanToChange = task.isCompleted();
+            task.setIdTask(4);
+        }
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idTask"));
+
         descColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionTask"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("timer"));
+
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("completed"));
+
+
         if (taskManager == null) {
             taskManager = TaskManager.getInstance();
         }
+
+
+
+
+
+
         ObservableList<Task> data = FXCollections.observableArrayList(taskManager.getTasks());
         tableTask.setItems(data);
     }

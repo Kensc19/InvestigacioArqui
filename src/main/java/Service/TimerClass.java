@@ -11,11 +11,10 @@ public class TimerClass {
     Task task;
 
 
-    public void initTimer(long tiempo){
+    public void initTimer(long tiempo, int idTask){
 
         Timer timer = new Timer();
         taskManager = new TaskManager();
-        task = new Task();
 
         TimerTask tarea = new TimerTask() {
 
@@ -25,6 +24,11 @@ public class TimerClass {
                 System.out.println("Tarea finalizada");
                 timer.cancel();
 
+                if(task == null) {
+                    task = Task.getInstance();
+                    task.setCompleted(true);
+                    System.out.println(task.isCompleted());
+                }
 
             }
 

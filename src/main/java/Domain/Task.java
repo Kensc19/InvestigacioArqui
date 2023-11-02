@@ -1,24 +1,30 @@
 package Domain;
 
-import java.time.LocalDate;
-import java.util.Timer;
-
 public class Task {
 
     private int idTask;
     private String descriptionTask;
     private int timer;
-    private boolean isCompleted;
+    private boolean completed;
+    private static Task instance;
+
 
 
     public Task() {
     }
 
-    public Task(int idTask, String descriptionTask, int timer, boolean isCompleted) {
+    public Task(int idTask, String descriptionTask, int timer, boolean completed) {
         this.idTask = idTask;
         this.descriptionTask = descriptionTask;
         this.timer = timer;
-        this.isCompleted = isCompleted;
+        this.completed = completed;
+    }
+
+    public static Task getInstance() {
+        if (instance == null) {
+            instance = new Task();
+        }
+        return instance;
     }
 
     public int getIdTask() {
@@ -46,11 +52,11 @@ public class Task {
     }
 
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
     public void setCompleted(boolean completed) {
-        isCompleted = completed;
+        this.completed = completed;
     }
 
 
@@ -61,6 +67,6 @@ public class Task {
                 "idTask=" + idTask +
                 ", descriptionTask='" + descriptionTask + '\'' +
                 ", timer=" + timer +
-                ", isCompleted=" + isCompleted;
+                ", isCompleted=" + completed;
     }
 }
