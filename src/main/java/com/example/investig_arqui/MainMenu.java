@@ -28,11 +28,13 @@ public class  MainMenu {
     private AddTasks addTasks;
 
     private SerialPort serialPort;
+    private ShowTasks showTasks;
     public void initialize() {
         serialPort = SerialPort.getCommPort("COM3");  // Reemplaza "COM3" con el puerto correcto
         serialPort.openPort();
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-
+        System.out.println(serialPort.openPort());
+        sendDataToArduino("k");
         // Iniciar un hilo para la comunicación con Arduino
         Thread communicationThread = new Thread(() -> {
             while (true) {
@@ -41,10 +43,23 @@ public class  MainMenu {
                     int numRead = serialPort.readBytes(readBuffer, readBuffer.length);
                     String message = new String(readBuffer, 0, numRead);
 
-                    if (message.contains("PresionarBotonAdd")) {
+                    if (message.contains("a")) {
                         Platform.runLater(() -> {
                             try {
                                 addButton_clicked(null);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    } else if (message.contains("s")) {
+                        Platform.runLater(() -> {
+                            exitButtonAll_clicked(null);
+                        });
+                    } else if (message.contains("m")) {
+                        Platform.runLater(() -> {
+                            try {
+                                showButton_clicked(null);
+                                sendDataToArduino("l");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -82,11 +97,24 @@ public class  MainMenu {
         Stage nuevoStage = new Stage();
         nuevoStage.setScene(scene);
         nuevoStage.show();
+
+        ShowTasks showTasks = loader.getController();
+        showTasks.setSerialPort(serialPort);// Configura el objeto SerialPort en ShowTasks
     }
+
 
     @FXML
     void exitButtonAll_clicked(ActionEvent event) {
         Platform.exit();
+    }
+
+
+    private void sendDataToArduino(String data) {
+        if (serialPort.isOpen()) {
+            byte[] dataBytes = data.getBytes();
+            System.out.println(data);
+            serialPort.writeBytes(dataBytes, dataBytes.length);
+        }
     }
 
 }
