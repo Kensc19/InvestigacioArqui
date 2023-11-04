@@ -32,29 +32,18 @@ public class ShowTasks {
 
     private TaskManager taskManager;
     private SerialPort serialPort1;
-    private static ShowTasks instance;
 
     @FXML
     void exitViewClicked(ActionEvent event) {
         Stage currentStage = (Stage) exitView.getScene().getWindow();
         currentStage.close();
     }
-    public void setSerialPort(SerialPort serialPort) {
-        this.serialPort1 = serialPort;
-    }
 
-    public static ShowTasks getInstance() {
-        if (instance == null) {
-            instance = new ShowTasks();
-        }
-        return instance;
-    }
 
     @FXML
     void initialize() {
 
         this.serialPort1 = SerialPort.getCommPort("COM3");
-        System.out.println(this.serialPort1.openPort());
         this.serialPort1.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
         Thread communicationThread = new Thread(() -> {
 
@@ -89,10 +78,6 @@ public class ShowTasks {
             taskManager = TaskManager.getInstance();
         }
 
-
-        int hashCode = System.identityHashCode(taskManager);
-        System.out.println("Dirección de memoria de taskmanager en el timer: " + Integer.toHexString(hashCode));
-
         ObservableList<Task> data = FXCollections.observableArrayList(taskManager.getTasks());
         tableTask.setItems(data);
 
@@ -106,24 +91,15 @@ public class ShowTasks {
                 }
                 // Modificar los datos en el hilo de la interfaz de usuario para asegurar la sincronización
                 Platform.runLater(() -> {
-                    //System.out.println(task.isCompleted());
 
                     // Limpiar y agregar nuevos datos al ObservableList (simulando cambios en tiempo real)
                     data.clear();
                     data.addAll(TaskManager.getInstance().getTasks());
-                    System.out.println("HOLAAA" + TaskManager.getInstance().getTasks().getFirst().isCompleted());
                 });
             }
         }).start();
     }
 
-    private void sendDataToArduino(String data) {
-        if (!this.serialPort1.isOpen()) {
-            byte[] dataBytes = data.getBytes();
-            System.out.println(data);
-            this.serialPort1.writeBytes(dataBytes, dataBytes.length);
-        }
-    }
 
 }
 

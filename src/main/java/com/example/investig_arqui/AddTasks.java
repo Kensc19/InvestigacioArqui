@@ -17,7 +17,6 @@ import java.io.IOException;
 
 public class AddTasks {
     TimerClass taskTimer;
-    TaskManager taskManager;
     boolean firstTime;
 
     private Stage currentStage;
@@ -27,20 +26,9 @@ public class AddTasks {
     public AddTasks() {
     }
 
-    public Stage getCurrentStage() {
-        return currentStage;
-    }
-
-    public void setCurrentStage(Stage currentStage) {
-        this.currentStage = currentStage;
-    }
-
     private int countTask;
 
     private int time;
-
-    @FXML
-    private Button accept_but;
 
     @FXML
     private Button exit_add;
@@ -56,8 +44,7 @@ public class AddTasks {
         serialPort = SerialPort.getCommPort("COM3");  // Reemplaza "COM3" con el puerto correcto
         serialPort.openPort();
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-        System.out.println(serialPort.openPort());
-        sendDataToArduino("k");
+
         // Iniciar un hilo para la comunicación con Arduino
         Thread communicationThread = new Thread(() -> {
             while (true) {
@@ -78,6 +65,24 @@ public class AddTasks {
                         Platform.runLater(() -> {
                             try {
                                 exit_add_clicked(null);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
+                    else if (message.contains("n")) {
+                        Platform.runLater(() -> {
+                            try {
+                                restBut_clicked(null);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
+                    else if (message.contains("M")) {
+                        Platform.runLater(() -> {
+                            try {
+                                sumBut_clicked(null);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -123,11 +128,11 @@ public class AddTasks {
         if(minutes > 0) {
             // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
             TaskManager.getInstance().addTask(newTask);
-
+            sendDataToArduino("k");
             // crear el objeto timer
             taskTimer = new TimerClass();
             //long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
-            taskTimer.initTimer(10000, countTask);
+            taskTimer.initTimer(60000, countTask);
 
 
             if (isActive(nuevoStage) == false || nuevoStage.isShowing() == false) {
@@ -152,7 +157,7 @@ public class AddTasks {
     @FXML
     void exit_add_clicked(ActionEvent event) throws IOException {
         currentStage = (Stage) exit_add.getScene().getWindow();
-        currentStage.hide();
+        Platform.exit();
     }
 
     @FXML
@@ -195,7 +200,6 @@ public class AddTasks {
     private void sendDataToArduino(String data) {
         if (serialPort.isOpen()) {
             byte[] dataBytes = data.getBytes();
-            System.out.println(data);
             serialPort.writeBytes(dataBytes, dataBytes.length);
         }
     }
