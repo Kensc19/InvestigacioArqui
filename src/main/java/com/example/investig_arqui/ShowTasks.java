@@ -57,10 +57,9 @@ public class ShowTasks {
     @FXML
     void initialize() {
 
-        this.serialPort1 = SerialPort.getCommPort("COM3");  // Reemplaza "COM3" con el puerto correcto
+        this.serialPort1 = SerialPort.getCommPort("COM3");
         System.out.println(this.serialPort1.openPort());
         this.serialPort1.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
-
         Thread communicationThread = new Thread(() -> {
 
             while (true) {
@@ -73,6 +72,7 @@ public class ShowTasks {
                     if (message.contains("e")) {
                         Platform.runLater(() -> {
                             exitViewClicked(null);
+
                         });
                     }
                 }
