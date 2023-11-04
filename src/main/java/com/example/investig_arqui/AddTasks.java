@@ -3,6 +3,8 @@ package com.example.investig_arqui;
 import Domain.Task;
 import Service.TaskManager;
 import Service.TimerClass;
+import com.fazecast.jSerialComm.SerialPort;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,11 +44,50 @@ public class AddTasks {
 
     @FXML
     private Button restBut;
+    private SerialPort serialPort;
 
 
     @FXML
     private TextArea textArea_task = new TextArea();
+    public void initialize() throws IOException {
+        serialPort = SerialPort.getCommPort("COM3");  // Reemplaza "COM3" con el puerto correcto
+        serialPort.openPort();
+        serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+        System.out.println(serialPort.openPort());
+        sendDataToArduino("k");
+        // Iniciar un hilo para la comunicación con Arduino
+        Thread communicationThread = new Thread(() -> {
+            while (true) {
+                if (serialPort.bytesAvailable() > 0) {
+                    byte[] readBuffer = new byte[serialPort.bytesAvailable()];
+                    int numRead = serialPort.readBytes(readBuffer, readBuffer.length);
+                    String message = new String(readBuffer, 0, numRead);
 
+                    if (message.contains("a")) {
+                        Platform.runLater(() -> {
+                            try {
+                                accept_but_clicked(null);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    } else if (message.contains("s")) {
+                        Platform.runLater(() -> {
+                            try {
+                                exit_add_clicked(null);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        communicationThread.start();
+
+
+
+    }
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
 
@@ -89,9 +130,13 @@ public class AddTasks {
 
         // Cierra la ventana actual si es necesario
         Stage currentStage = (Stage) accept_but.getScene().getWindow();
-        currentStage.hide();
 
         //System.out.println(newTask.toString());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("showTasks.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage nuevoStage = new Stage();
+        nuevoStage.setScene(scene);
+        nuevoStage.show();
 
         countTask += 1;
         time = 0;
@@ -144,6 +189,13 @@ public class AddTasks {
             return false;
         } else {
             return true;
+        }
+    }
+    private void sendDataToArduino(String data) {
+        if (serialPort.isOpen()) {
+            byte[] dataBytes = data.getBytes();
+            System.out.println(data);
+            serialPort.writeBytes(dataBytes, dataBytes.length);
         }
     }
 
