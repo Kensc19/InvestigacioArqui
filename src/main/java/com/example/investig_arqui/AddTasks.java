@@ -37,7 +37,6 @@ public class AddTasks {
     private Button restBut;
     private SerialPort serialPort;
 
-
     @FXML
     private TextArea textArea_task = new TextArea();
     public void initialize() throws IOException {
