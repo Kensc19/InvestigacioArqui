@@ -23,6 +23,7 @@ public class AddTasks {
     private Stage currentStage;
 
     private Stage nuevoStage;
+
     public AddTasks() {
     }
 
@@ -119,33 +120,31 @@ public class AddTasks {
         // Crea una nueva instancia de Task con los datos
         Task newTask = new Task(countTask, description, minutes, false);
 
-        // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
-        TaskManager taskManager = TaskManager.getInstance(); // O como obtengas la instancia
-        taskManager.addTask(newTask);
+        if(minutes > 0) {
+            // Agrega la tarea al TaskManager (asegúrate de que tengas una instancia)
+            TaskManager.getInstance().addTask(newTask);
+
+            // crear el objeto timer
+            taskTimer = new TimerClass();
+            //long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
+            taskTimer.initTimer(10000, countTask);
 
 
-        // crear el objeto timer
-        taskTimer = new TimerClass();
-        long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
-        taskTimer.initTimer(minToMili, countTask);
+            if (isActive(nuevoStage) == false || nuevoStage.isShowing() == false) {
+                firstTime = true;
+                //System.out.println(newTask.toString());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("showTasks.fxml"));
+                Scene scene = new Scene(loader.load());
+                nuevoStage = new Stage();
+                nuevoStage.setScene(scene);
+                nuevoStage.show();
+            }
 
-        //System.out.println("\nStage Activo " + nuevoStage.isShowing());
-
-        if(isActive(nuevoStage) == false || nuevoStage.isShowing() == false ) {
-            firstTime = true;
-            //System.out.println(newTask.toString());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("showTasks.fxml"));
-            Scene scene = new Scene(loader.load());
-            nuevoStage = new Stage();
-            nuevoStage.setScene(scene);
-            nuevoStage.show();
-
-
-        }
-
-        countTask += 1;
-        time = 0;
-        setTextArea();
+            countTask += 1;
+            time = 0;
+            setTextArea();
+        }else
+            textArea_task.setText("No se puede añadir la tarea");
 
     }
 
@@ -160,7 +159,6 @@ public class AddTasks {
     void restBut_clicked(ActionEvent event) throws IOException {
         time -= 1;
 
-
         setTextArea();
     }
 
@@ -169,7 +167,6 @@ public class AddTasks {
         time += 1;
 
         setTextArea();
-
     }
 
     public void setTextArea() throws IOException {
@@ -186,7 +183,6 @@ public class AddTasks {
         textArea_task.setText("ID: " + countTask +
                 "\nTarea" +
                 "\nTiempo: " + time + " minutos");
-
     }
 
     public boolean isActive(Stage stage){

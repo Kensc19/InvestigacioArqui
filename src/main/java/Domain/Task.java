@@ -6,8 +6,6 @@ public class Task {
     private String descriptionTask;
     private int timer;
     private boolean completed;
-    private static Task instance;
-
 
 
     public Task() {
@@ -20,12 +18,6 @@ public class Task {
         this.completed = completed;
     }
 
-    public static Task getInstance() {
-        if (instance == null) {
-            instance = new Task();
-        }
-        return instance;
-    }
 
     public int getIdTask() {
         return idTask;

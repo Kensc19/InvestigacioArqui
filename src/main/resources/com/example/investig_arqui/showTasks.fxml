@@ -11,8 +11,8 @@
       <TableView fx:id="tableTask" layoutX="76.0" layoutY="64.0" prefHeight="374.0" prefWidth="556.0">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="197.0" text="ID" />
-          <TableColumn fx:id="descColumn" prefWidth="172.0" text="Description" />
-            <TableColumn fx:id="timeColumn" prefWidth="186.0" text="Status" />
+          <TableColumn fx:id="descColumn" prefWidth="172.0" text="Minutos" />
+            <TableColumn fx:id="statusColumn" prefWidth="186.0" text="Finalizada" />
         </columns>
       </TableView>
       <Button fx:id="exitView" layoutX="300.0" layoutY="462.0" mnemonicParsing="false" onAction="#exitViewClicked" prefHeight="50.0" prefWidth="107.0" text="Salir">

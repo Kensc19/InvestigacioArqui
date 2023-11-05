@@ -7,17 +7,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerClass {
-    TaskManager taskManager;
-    Task task;
-
 
     public void initTimer(long tiempo, int idTask){
 
         Timer timer = new Timer();
-        if(taskManager == null){
-            taskManager = TaskManager.getInstance();
-
-        }
 
         TimerTask tarea = new TimerTask() {
 
@@ -25,10 +18,7 @@ public class TimerClass {
             @Override
             public void run() {
                 System.out.println("Tarea finalizada");
-                if(task == null) {
-                    task = Task.getInstance();
-                }
-                taskManager.taskFound(task.getIdTask());
+                TaskManager.getInstance().taskFound(idTask);
                 timer.cancel();
 
             }

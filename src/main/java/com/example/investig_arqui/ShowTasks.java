@@ -14,9 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class ShowTasks {
     @FXML
     private TableColumn<?, ?> descColumn;
@@ -31,13 +28,10 @@ public class ShowTasks {
     private TableView<Task> tableTask;
 
     @FXML
-    private TableColumn<?, ?> timeColumn;
+    private TableColumn<?, ?> statusColumn;
 
     private TaskManager taskManager;
-    private Task task;
-    private boolean booleanToChange = false;
     private SerialPort serialPort1;
-
     private static ShowTasks instance;
 
     @FXML
@@ -48,12 +42,14 @@ public class ShowTasks {
     public void setSerialPort(SerialPort serialPort) {
         this.serialPort1 = serialPort;
     }
+
     public static ShowTasks getInstance() {
         if (instance == null) {
             instance = new ShowTasks();
         }
         return instance;
     }
+
     @FXML
     void initialize() {
 
@@ -78,30 +74,47 @@ public class ShowTasks {
                 }
             }
         });
+
         communicationThread.start();
 
-
         tableTask.refresh();
-        if(task == null) {
-            task = Task.getInstance();
-            booleanToChange = task.isCompleted();
-            task.setIdTask(4);
-        }
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idTask"));
 
-        descColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionTask"));
+        descColumn.setCellValueFactory(new PropertyValueFactory<>("timer"));
 
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("completed"));
-
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("completed"));
 
         if (taskManager == null) {
             taskManager = TaskManager.getInstance();
         }
 
 
+        int hashCode = System.identityHashCode(taskManager);
+        System.out.println("Dirección de memoria de taskmanager en el timer: " + Integer.toHexString(hashCode));
+
         ObservableList<Task> data = FXCollections.observableArrayList(taskManager.getTasks());
         tableTask.setItems(data);
+
+
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // Modificar los datos en el hilo de la interfaz de usuario para asegurar la sincronización
+                Platform.runLater(() -> {
+                    //System.out.println(task.isCompleted());
+
+                    // Limpiar y agregar nuevos datos al ObservableList (simulando cambios en tiempo real)
+                    data.clear();
+                    data.addAll(TaskManager.getInstance().getTasks());
+                    System.out.println("HOLAAA" + TaskManager.getInstance().getTasks().getFirst().isCompleted());
+                });
+            }
+        }).start();
     }
 
     private void sendDataToArduino(String data) {
