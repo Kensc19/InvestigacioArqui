@@ -15,8 +15,11 @@ public class HelloApplication extends Application {
         stage.setTitle("Administrador De Tareas");
         stage.setResizable(false);
         stage.setScene(scene);
-
+        AddTasks tareas = new AddTasks();
+        tareas = fxmlLoader.getController();
+        tareas.setTextArea();
         stage.show();
+
     }
 
     public static void main(String[] args) {
