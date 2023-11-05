@@ -18,9 +18,11 @@ import java.io.IOException;
 public class AddTasks {
     TimerClass taskTimer;
     TaskManager taskManager;
+    boolean firstTime;
 
     private Stage currentStage;
 
+    private Stage nuevoStage;
     public AddTasks() {
     }
 
@@ -127,16 +129,19 @@ public class AddTasks {
         long minToMili = minutes * 60 * 1000; // convertir minutos en milisegundos
         taskTimer.initTimer(minToMili, countTask);
 
+        //System.out.println("\nStage Activo " + nuevoStage.isShowing());
 
-        // Cierra la ventana actual si es necesario
-        Stage currentStage = (Stage) accept_but.getScene().getWindow();
+        if(isActive(nuevoStage) == false || nuevoStage.isShowing() == false ) {
+            firstTime = true;
+            //System.out.println(newTask.toString());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("showTasks.fxml"));
+            Scene scene = new Scene(loader.load());
+            nuevoStage = new Stage();
+            nuevoStage.setScene(scene);
+            nuevoStage.show();
 
-        //System.out.println(newTask.toString());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("showTasks.fxml"));
-        Scene scene = new Scene(loader.load());
-        Stage nuevoStage = new Stage();
-        nuevoStage.setScene(scene);
-        nuevoStage.show();
+
+        }
 
         countTask += 1;
         time = 0;

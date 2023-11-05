@@ -43,7 +43,7 @@ public class ShowTasks {
     @FXML
     void exitViewClicked(ActionEvent event) {
         Stage currentStage = (Stage) exitView.getScene().getWindow();
-        currentStage.hide();
+        currentStage.close();
     }
     public void setSerialPort(SerialPort serialPort) {
         this.serialPort1 = serialPort;
