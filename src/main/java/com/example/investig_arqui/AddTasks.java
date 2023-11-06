@@ -92,8 +92,6 @@ public class AddTasks {
         });
         communicationThread.start();
 
-
-
     }
     @FXML
     void accept_but_clicked(ActionEvent event) throws IOException {
